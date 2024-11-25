@@ -28,11 +28,19 @@ exports.addNewProduct = async(product) => {
 }
 
 exports.getQueryObject = () => {
-    return Product.find().populate('category');
+    return Product.find()
+        .populate({
+            path: 'category',
+            select: '-_id -description -__v'
+        });
 }
 
 exports.getProductById = async(id) => {
-    const product = await Product.findById(id).populate('category');
+    const product = await Product.findById(id)
+        .populate({
+            path: 'category',
+            select: '-_id -description -__v'
+        });
     return product;
 }
 
