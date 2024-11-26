@@ -38,7 +38,7 @@ exports.getProductById = asyncWrapper(async(req, res, next) => {
         status: 'success',
         data: product
     });
-})
+}, 'productId')
 
 exports.updateProduct = asyncWrapper(async(req, res, next) => {
     const product = await productModel.getProductById(req.params.productId);
@@ -53,7 +53,7 @@ exports.updateProduct = asyncWrapper(async(req, res, next) => {
         status: 'success',
         data: updProduct
     });
-})
+}, 'productId')
 
 exports.deleteProduct = asyncWrapper(async(req, res, next) => {
     const product = await productModel.getProductById(req.params.productId);
@@ -67,4 +67,4 @@ exports.deleteProduct = asyncWrapper(async(req, res, next) => {
         status: 'success',
         data: null
     });
-})
+}, 'productId');

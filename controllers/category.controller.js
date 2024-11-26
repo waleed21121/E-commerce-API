@@ -34,7 +34,8 @@ exports.getCategories = asyncWrapper(async(req, res, next) => {
 })
 
 exports.getCategoryById = asyncWrapper(async(req, res, next) => {
-    const category = await categoryModel.getCategoryById(req.params.categoryId);
+    const id = req.params.categoryId;
+    const category = await categoryModel.getCategoryById(id);
     if(!category) {
         const error = appError.create(404, 'fail', 'category not found');
         throw error;
@@ -43,10 +44,11 @@ exports.getCategoryById = asyncWrapper(async(req, res, next) => {
         status: 'success',
         data: category
     });
-})
+}, 'categoryId')
 
 exports.updateCategory = asyncWrapper(async(req, res, next) => {
-    const category = await categoryModel.getCategoryById(req.params.categoryId);
+    const id = req.params.categoryId;
+    const category = await categoryModel.getCategoryById(id);
     if(!category) {
         const error = appError.create(404, 'fail', 'category not found');
         throw error;
@@ -57,10 +59,11 @@ exports.updateCategory = asyncWrapper(async(req, res, next) => {
         status: 'success',
         data: updCategory
     });
-})
+}, 'categoryId')
 
 exports.deleteCategory = asyncWrapper(async(req, res, next) => {
-    const category = await categoryModel.getCategoryById(req.params.categoryId);
+    const id = req.params.categoryId;
+    const category = await categoryModel.getCategoryById(id);
     if(!category) {
         const error = appError.create(404, 'fail', 'category not found');
         throw error;
@@ -71,7 +74,7 @@ exports.deleteCategory = asyncWrapper(async(req, res, next) => {
         status: 'success',
         data: null
     });
-})
+}, 'categoryId')
 
 exports.getCategoryProducts = asyncWrapper(async(req, res, next) => {
     const queryObject = productModel.getQueryObject();
