@@ -44,7 +44,7 @@ exports.getCategoryById = asyncWrapper(async(req, res, next) => {
         status: 'success',
         data: category
     });
-}, 'categoryId')
+})
 
 exports.updateCategory = asyncWrapper(async(req, res, next) => {
     const id = req.params.categoryId;
@@ -59,7 +59,7 @@ exports.updateCategory = asyncWrapper(async(req, res, next) => {
         status: 'success',
         data: updCategory
     });
-}, 'categoryId')
+})
 
 exports.deleteCategory = asyncWrapper(async(req, res, next) => {
     const id = req.params.categoryId;
@@ -74,7 +74,7 @@ exports.deleteCategory = asyncWrapper(async(req, res, next) => {
         status: 'success',
         data: null
     });
-}, 'categoryId')
+})
 
 exports.getCategoryProducts = asyncWrapper(async(req, res, next) => {
     const queryObject = productModel.getQueryObject();
