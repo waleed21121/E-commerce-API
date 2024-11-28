@@ -34,7 +34,7 @@ exports.getCategories = asyncWrapper(async(req, res, next) => {
 })
 
 exports.getCategoryById = asyncWrapper(async(req, res, next) => {
-    const id = req.params.categoryId;
+    const id = req.params.id;
     const category = await categoryModel.getCategoryById(id);
     if(!category) {
         const error = appError.create(404, 'fail', 'category not found');
@@ -47,14 +47,14 @@ exports.getCategoryById = asyncWrapper(async(req, res, next) => {
 })
 
 exports.updateCategory = asyncWrapper(async(req, res, next) => {
-    const id = req.params.categoryId;
+    const id = req.params.id;
     const category = await categoryModel.getCategoryById(id);
     if(!category) {
         const error = appError.create(404, 'fail', 'category not found');
         throw error;
     }
 
-    const updCategory = await categoryModel.updateCategory(req.params.categoryId, {...req.body});
+    const updCategory = await categoryModel.updateCategory(req.params.id, {...req.body});
     res.status(200).json({
         status: 'success',
         data: updCategory
@@ -62,14 +62,14 @@ exports.updateCategory = asyncWrapper(async(req, res, next) => {
 })
 
 exports.deleteCategory = asyncWrapper(async(req, res, next) => {
-    const id = req.params.categoryId;
+    const id = req.params.id;
     const category = await categoryModel.getCategoryById(id);
     if(!category) {
         const error = appError.create(404, 'fail', 'category not found');
         throw error;
     }
 
-    await categoryModel.deleteCategory(req.params.categoryId);
+    await categoryModel.deleteCategory(req.params.id);
     res.status(200).json({
         status: 'success',
         data: null
@@ -78,7 +78,7 @@ exports.deleteCategory = asyncWrapper(async(req, res, next) => {
 
 exports.getCategoryProducts = asyncWrapper(async(req, res, next) => {
     const queryObject = productModel.getQueryObject();
-    req.query.category = req.params.categoryId;
+    req.query.category = req.params.id;
     const features = new apiFeatures(queryObject, req.query).fieldsFilter().paginate().sort();
     const products = await features.queryObject;
     res.status(200).json({

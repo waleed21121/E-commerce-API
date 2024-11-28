@@ -1,8 +1,11 @@
 const mongoose = require('mongoose');
 const appError = require('./appError');
-exports.validateId = (id) => {
+
+module.exports = (req, res, next) => {
+    const {id} = req.params;
     if(!mongoose.Types.ObjectId.isValid(id)) {
         const error = appError.create(400, 'fail', 'Invalid id');
-        throw error;
+        next(error);
     }
-} 
+    next();
+}

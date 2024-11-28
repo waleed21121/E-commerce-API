@@ -29,7 +29,7 @@ exports.getProducts = asyncWrapper(async(req, res, next) => {
 })
 
 exports.getProductById = asyncWrapper(async(req, res, next) => {
-    const product = await productModel.getProductById(req.params.productId);
+    const product = await productModel.getProductById(req.params.id);
     if(!product) {
         const error = appError.create(404, 'fail', 'product not found');
         throw error;
@@ -41,13 +41,13 @@ exports.getProductById = asyncWrapper(async(req, res, next) => {
 })
 
 exports.updateProduct = asyncWrapper(async(req, res, next) => {
-    const product = await productModel.getProductById(req.params.productId);
+    const product = await productModel.getProductById(req.params.id);
     if(!product) {
         const error = appError.create(404, 'fail', 'product not found');
         throw error;
     }
 
-    const updProduct = await productModel.updateProduct(req.params.productId, {...req.body});
+    const updProduct = await productModel.updateProduct(req.params.id, {...req.body});
 
     res.status(200).json({
         status: 'success',
@@ -56,13 +56,13 @@ exports.updateProduct = asyncWrapper(async(req, res, next) => {
 })
 
 exports.deleteProduct = asyncWrapper(async(req, res, next) => {
-    const product = await productModel.getProductById(req.params.productId);
+    const product = await productModel.getProductById(req.params.id);
     if(!product) {
         const error = appError.create(404, 'fail', 'product not found');
         throw error;
     }
 
-    await productModel.deleteProduct(req.params.productId);
+    await productModel.deleteProduct(req.params.id);
     res.status(200).json({
         status: 'success',
         data: null
