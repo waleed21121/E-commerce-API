@@ -5,11 +5,6 @@ const asyncWrapper = require('../features/asyncWrapper');
 const {validationResult} = require('express-validator');
 
 exports.addNewProduct = asyncWrapper(async(req, res, next) => {
-    const errors = validationResult(req);
-    if(!errors.isEmpty()) {
-        const error = appError.create(400, 'fail', errors.array());
-        throw error;
-    }
     await productModel.addNewProduct(req.body);
     res.status(201).json({
         status: 'success',

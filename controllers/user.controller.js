@@ -18,12 +18,6 @@ exports.getAllUsers = asyncWrapper(async(req, res, next) => {
 })
 
 exports.register = asyncWrapper(async(req, res, next) => {
-    const errors = validationResult(req);
-    if(!errors.isEmpty()) {
-        const error = appError.create(400, 'fail', errors.array());
-        throw error;
-    }
-    
     const { firstName, lastName, email, password } = req.body;
     
     const user = await userModel.getUserByEmail(email);

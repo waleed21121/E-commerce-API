@@ -3,15 +3,9 @@ const productModel = require('../models/product.model');
 const apiFeatures = require('../features/apiFeatures');
 const asyncWrapper = require('../features/asyncWrapper');
 const appError = require('../features/appError');
-const {validationResult} = require('express-validator');
 
 exports.addNewCategory = asyncWrapper(async(req, res, next) => {
-    const errors = validationResult(req);
-    if(!errors.isEmpty()) {
-        const error = appError.create(400, 'fail', errors.array());
-        throw error;
-    }
-    const category = categoryModel.Category.findOne({name: req.body.name});
+    const category = await categoryModel.Category.findOne({name: req.body.name});
     if(category) {
         const error = appError.create(400, 'fail', 'The category is already exist');
         throw error;

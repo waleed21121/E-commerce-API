@@ -3,10 +3,12 @@ const productController = require('../controllers/product.controller');
 const productValidator = require('../features/productValidation');
 const token = require('../features/JWT');
 const idValidator = require('../features/idValidator');
+const validationWrapper = require('../features/validationWrapper');
+
 
 const router = express.Router();
 
-router.route('/').post(token.verifyToken, productValidator.validationArray, productController.addNewProduct)
+router.route('/').post(token.verifyToken, validationWrapper(productValidator.validationArray), productController.addNewProduct)
                     .get(productController.getProducts);
 
 router.route('/:id').get(idValidator, productController.getProductById)

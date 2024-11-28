@@ -1,5 +1,5 @@
-const idValidator = require('./idValidator');
-module.exports = (validationArray, validationMiddleware) => {
+const validationMiddleware = require('./validationMiddleware');
+module.exports = (validationArray) => {
     const arr = [...validationArray, validationMiddleware];
-    return (arr) =>{};
+    return arr;
 }
