@@ -19,11 +19,7 @@ app.use((error, req, res, next) => {
     .json({status: error.statusText || 'Not found', error: error.message});
 })
 
-const DB_URL = process.env.DB_URL;
 const PORT = process.env.PORT;
-mongoose.connect(DB_URL).then(() => {
-    console.log('connected to database');
-})
 app.listen(PORT, (err) => {
     console.log(`listening on port ${PORT}`);
 })
