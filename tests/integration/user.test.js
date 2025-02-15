@@ -14,4 +14,13 @@ describe("get user", () => {
         const users = await userModel.getQueryObject();
         expect(users.length).toBe(0);
     })
+
+    it('should return one user', async () => {
+        const user = new userModel.User(userDoc);
+        await user.save();
+        const users = await userModel.getQueryObject();
+
+        expect(users.length).toBe(1);
+        expect(users[0]).toMatchObject(userDoc);
+    })
 })
