@@ -11,4 +11,15 @@ describe("get products", () => {
         const products = await productModel.getQueryObject();
         expect(products.length).toBe(0);
     })
+
+    it('should return one product', async () => {
+        await productModel.Product.insertMany([{
+            name: 'Test Product',
+            description: 'This is a test product.',
+            price: 10,
+            category: '672a18300427a1123af52f63'
+        }]);
+        const product = await productModel.getQueryObject();
+        expect(product.length).toBe(1);
+    })
 })
