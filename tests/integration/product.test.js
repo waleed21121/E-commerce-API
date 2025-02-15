@@ -31,3 +31,12 @@ describe("get products", () => {
         expect(foundProduct).toMatchObject({name: 'Test Product', price: 10});
     })
 })
+
+describe("create new product", () => {
+    it('should create a new product', async () => {
+        const newProduct = await productModel.addNewProduct(productDoc);
+        const product = await productModel.Product.find({});
+        expect(product.length).toBe(1);
+        expect(product[0]).toMatchObject({name: 'Test Product', price: 10});
+    })
+})
