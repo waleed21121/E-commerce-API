@@ -31,3 +31,13 @@ describe("get user", () => {
         expect(foundUser).toMatchObject({email: userDoc.email});
     })
 })
+
+describe("create new user", () => {
+    it('should create a new user', async () => {
+        await userModel.addNewUser(userDoc);
+
+        const user = await userModel.User.find();
+        expect(user.length).toBe(1);
+        expect(user[0]).toMatchObject(userDoc);
+    })
+})
