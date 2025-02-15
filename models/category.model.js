@@ -12,8 +12,8 @@ const categorySchema = new mongoose.Schema({
     }
 });
 
-const Category = mongoose.model('category', categorySchema);
-
+const Category = mongoose.model('Category', categorySchema);
+exports.Category = Category;
 exports.addNewCategory = async(category) => {
     const newCategory = new Category(category);
     await newCategory.save();
@@ -36,5 +36,3 @@ exports.updateCategory = async(id, updates) => {
 exports.deleteCategory = async(id) => {
     await Category.deleteOne({_id: id});
 }
-
-exports.Category = mongoose.model('Category', categorySchema);

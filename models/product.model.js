@@ -15,12 +15,14 @@ const productSchema = new mongoose.Schema({
     },
     category: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Category',
+        ref: "Category",
         required: true,
     }
 });
 
 const Product = mongoose.model('product', productSchema);
+
+exports.Product = Product;
 
 exports.addNewProduct = async(product) => {
     const newProduct = new Product(product);
