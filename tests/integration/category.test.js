@@ -41,3 +41,14 @@ describe('update category', () => {
         expect(updatedCategory.name).toBe('Updated Electronics');
     })
 })
+
+describe('delete category', () => {
+    it('should delete a category', async () => {
+        const category = new categoryModel.Category(categoryDoc);
+        await category.save();
+
+        await categoryModel.deleteCategory(category._id);
+        const foundCategory = await categoryModel.Category.findById(category._id);
+        expect(foundCategory).toBeNull();
+    })
+})
