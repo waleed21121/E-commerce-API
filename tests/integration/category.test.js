@@ -16,5 +16,11 @@ describe('get category', () => {
         expect(categories.length).toBe(0);
     })
 
+    it('should return one category', async () => {
+        await categoryModel.Category.insertMany([categoryDoc]);
+        const categories = await categoryModel.getQueryObject();
+        expect(categories.length).toBe(1);
+        expect(categories[0]).toMatchObject({name: 'Electronics'});
+    })
     
 })
