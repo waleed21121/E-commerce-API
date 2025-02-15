@@ -31,6 +31,16 @@ describe('get category', () => {
     })
 })
 
+describe('add new category', () => {
+    it('should create a new category', async () => {
+        await categoryModel.addNewCategory(categoryDoc);
+
+        const categories = await categoryModel.Category.find({});
+        expect(categories.length).toBe(1);
+        expect(categories[0]).toMatchObject({name: 'Electronics'});
+    })
+})
+
 describe('update category', () => {
     it('should update a category', async () => {
         const category = new categoryModel.Category(categoryDoc);
