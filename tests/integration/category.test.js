@@ -30,3 +30,14 @@ describe('get category', () => {
         expect(foundCategory).toMatchObject({name: 'Electronics'});
     })
 })
+
+describe('update category', () => {
+    it('should update a category', async () => {
+        const category = new categoryModel.Category(categoryDoc);
+        await category.save();
+
+        await categoryModel.updateCategory(category._id, {name: 'Updated Electronics'});
+        const updatedCategory = await categoryModel.Category.findById(category._id);
+        expect(updatedCategory.name).toBe('Updated Electronics');
+    })
+})
