@@ -23,4 +23,10 @@ describe('get category', () => {
         expect(categories[0]).toMatchObject({name: 'Electronics'});
     })
     
+    it('should return one category by id', async () => {
+        const category = new categoryModel.Category(categoryDoc);
+        await category.save();
+        const foundCategory = await categoryModel.getCategoryById(category._id);
+        expect(foundCategory).toMatchObject({name: 'Electronics'});
+    })
 })
