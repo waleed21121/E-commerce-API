@@ -3,8 +3,11 @@ const productModel = require('../../models/product.model');
 require('../../models/category.model');
 
 beforeEach(async () => {
-    productModel.Product.deleteMany({});
+    await productModel.Product.deleteMany({});
 })
+afterAll(async () => {
+    await productModel.Product.deleteMany({});
+});
 
 describe("get products", () => {
     it('should return empty array', async () => {
@@ -21,5 +24,6 @@ describe("get products", () => {
         }]);
         const product = await productModel.getQueryObject();
         expect(product.length).toBe(1);
+        expect(product[0]).toMatchObject({name: 'Test Product', price: 10});
     })
 })
