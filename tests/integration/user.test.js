@@ -23,4 +23,11 @@ describe("get user", () => {
         expect(users.length).toBe(1);
         expect(users[0]).toMatchObject(userDoc);
     })
+
+    it('should return the user by its email', async () => {
+        const user = new userModel.User(userDoc);
+        await user.save();
+        const foundUser = await userModel.getUserByEmail(userDoc.email);
+        expect(foundUser).toMatchObject({email: userDoc.email});
+    })
 })
