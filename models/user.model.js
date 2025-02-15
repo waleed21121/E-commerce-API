@@ -21,6 +21,7 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model('user', userSchema);
 
+exports.User = User;
 exports.getQueryObject = () => {
     const object = User.find();
     return object;
