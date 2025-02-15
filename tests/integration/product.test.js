@@ -40,3 +40,15 @@ describe("create new product", () => {
         expect(product[0]).toMatchObject({name: 'Test Product', price: 10});
     })
 })
+
+describe('update product', () => {
+    it('should update a product', async () => {
+        const product = new productModel.Product(productDoc);
+        await product.save();
+
+        await productModel.updateProduct(product._id, {name: 'Updated Product'});
+        const updatedProduct = await productModel.Product.findById(product._id);
+        
+        expect(updatedProduct.name).toBe('Updated Product');
+    })
+})
