@@ -48,7 +48,19 @@ describe('update product', () => {
 
         await productModel.updateProduct(product._id, {name: 'Updated Product'});
         const updatedProduct = await productModel.Product.findById(product._id);
-        
+
         expect(updatedProduct.name).toBe('Updated Product');
+    })
+})
+
+describe('delete product', () => {
+    it('should delete a product', async () => {
+        const product = new productModel.Product(productDoc);
+        await product.save();
+
+        await productModel.deleteProduct(product._id);
+
+        const deletedProduct = await productModel.Product.findById(product._id);
+        expect(deletedProduct).toBeNull();
     })
 })
