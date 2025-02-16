@@ -21,8 +21,8 @@ beforeEach(() => {
 })
 
 afterEach(() => {
-    next.mockReset();
-    appError.create.mockReset();
+    next.mockClear();
+    appError.create.mockClear();
 })
 describe('Validation middleware', () => {
 
