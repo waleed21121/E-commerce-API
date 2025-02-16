@@ -42,4 +42,17 @@ describe('JSON web token', () => {
         expect(appError.create).toHaveBeenCalledWith(401, 'fail', 'token is required');
         expect(next).toHaveBeenCalledWith({code: 401, text: 'fail', msg: 'token is required'});
     });
+
+    it('should return 401 for an invalid token', () => {
+        req.headers = {authorization: 'Bearer invalidtoken'};
+    
+        verify.mockImplementationOnce(() => {
+            throw new Error;
+        });
+
+        JWT.verifyToken(req, res, next);
+
+        expect(appError.create).toHaveBeenCalledWith(401, 'fail', 'Invalid token');
+        expect(next).toHaveBeenCalledWith({code: 401, text: 'fail', msg: 'Invalid token'});
+    });
 })
