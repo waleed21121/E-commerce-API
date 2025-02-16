@@ -4,11 +4,6 @@ const validationMiddleware = require('../../features/validationMiddleware');
 const { text } = require('express');
 
 let req, res, next;
-beforeEach(() => {
-    req = {},
-    res = {},
-    next = jest.fn();
-})
 
 jest.mock('express-validator', () => {
     return {validationResult: jest.fn()}
@@ -19,7 +14,18 @@ jest.mock('../../features/appError', () => {
 })
 
 
+beforeEach(() => {
+    req = {};
+    res = {};
+    next = jest.fn();
+})
+
+afterEach(() => {
+    next.mockReset();
+    appError.create.mockReset();
+})
 describe('Validation middleware', () => {
+
     it('should call next with an error', () => {
         const returned = {
             isEmpty: jest.fn().mockReturnValue(false),
@@ -31,5 +37,20 @@ describe('Validation middleware', () => {
 
         expect(appError.create).toHaveBeenCalledWith(400, 'fail', [{msg: 'invalid'}]);
         expect(next).toHaveBeenCalledWith({code: 400, text: 'fail', errors: [{msg: 'invalid'}]});
+
+        appError.create.mockReset();
+    });
+
+    it('should call next without an error', () => {
+        const returned = {
+            isEmpty: jest.fn().mockReturnValue(true),
+            array: jest.fn().mockReturnValue([])
+        }
+        validationResult.mockReturnValue(returned);
+
+        validationMiddleware(req, res, next);
+
+        expect(appError.create).not.toHaveBeenCalled();
+        expect(next).toHaveBeenCalledWith();
     });
 })
