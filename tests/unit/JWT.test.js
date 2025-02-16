@@ -34,4 +34,12 @@ describe('JSON web token', () => {
         expect(token).toBe('Test token');
         expect(sign).toHaveBeenCalledWith({email: email}, process.env.SECRET, {expiresIn: '1m'});
     });
+
+    it('should return 401 if no token is provided', () => {
+        req.headers = {};
+        JWT.verifyToken(req, res, next);
+
+        expect(appError.create).toHaveBeenCalledWith(401, 'fail', 'token is required');
+        expect(next).toHaveBeenCalledWith({code: 401, text: 'fail', msg: 'token is required'});
+    });
 })
