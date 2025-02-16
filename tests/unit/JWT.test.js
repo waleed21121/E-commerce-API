@@ -55,4 +55,15 @@ describe('JSON web token', () => {
         expect(appError.create).toHaveBeenCalledWith(401, 'fail', 'Invalid token');
         expect(next).toHaveBeenCalledWith({code: 401, text: 'fail', msg: 'Invalid token'});
     });
+
+    it('should call next() if token is valid', () => {
+        req.headers = { authorization: 'Bearer validtoken' };
+        
+        verify.mockReturnValue({ email: 'test@example.com' });
+    
+        JWT.verifyToken(req, res, next);
+    
+        expect(req.currentUser).toEqual({ email: 'test@example.com' });
+        expect(next).toHaveBeenCalled();
+    });
 })
