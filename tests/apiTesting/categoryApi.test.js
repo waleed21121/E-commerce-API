@@ -44,3 +44,14 @@ describe('Get Category', () => {
         expect(response.body.error).toBe('category not found');
     })
 })
+
+describe('Add new Category', () => {
+    it('should create a new category', async () => {
+        const response = await request(server)
+            .post('/api/categories')
+            .send(categoryDoc)
+            .set('Authorization', `Bearer ${generateToken('test@test.com')}`);
+        expect(response.status).toBe(201);
+        expect(response.body.data).toMatchObject(categoryDoc);
+    })
+})
