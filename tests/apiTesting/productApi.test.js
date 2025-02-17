@@ -3,14 +3,18 @@ const server = require('../../app');
 const mongoose = require('../../config/DBconfig');
 const {Product} = require('../../models/product.model');
 const {Category} = require('../../models/category.model');
-const productDoc = require('../integration/productDoc');
+const productDocument = require('../integration/productDoc');
 const categoryDoc = require('../integration/categoryDoc');
 const {generateToken} = require('../../features/JWT');
+
+
+let productDoc = {...productDocument};
 
 beforeEach(async function () {
     await Product.deleteMany({});
     await Category.deleteMany({});
-    const category = await Category.create(categoryDoc);
+    const category = new Category(categoryDoc);
+    await category.save();
     productDoc.category = category._id; 
 })
 
