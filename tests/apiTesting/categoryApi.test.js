@@ -65,3 +65,16 @@ describe('Add new Category', () => {
         expect(response.body.error).toMatch('category is already exist');
     })
 })
+
+describe('Update Category', () => {
+    it('should update the category', async () => {
+        const category = await Category.create(categoryDoc);
+        const response = await request(server)
+            .patch(`/api/categories/${category._id}`)
+            .send({name: 'updated category'})
+            .set('Authorization', `Bearer ${generateToken('test@test.com')}`);
+        const updatedCategory = await Category.findById(category._id);
+        expect(response.status).toBe(200);
+        expect(updatedCategory).toMatchObject({name: 'updated category'});
+    })
+})
