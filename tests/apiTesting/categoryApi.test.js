@@ -77,4 +77,13 @@ describe('Update Category', () => {
         expect(response.status).toBe(200);
         expect(updatedCategory).toMatchObject({name: 'updated category'});
     })
+
+    it('should return 404 when category doesn\'t exist', async () => {
+        const response = await request(server)
+            .patch(`/api/categories/6067348b71972b218a39230d`)
+            .send({name: 'updated category'})
+            .set('Authorization', `Bearer ${generateToken('test@test.com')}`);
+        expect(response.status).toBe(404);
+        expect(response.body.error).toBe('category not found');
+    })
 })
