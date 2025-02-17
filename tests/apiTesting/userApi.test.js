@@ -73,5 +73,13 @@ describe('Testing user', () => {
             expect(response.status).toBe(400);
             expect(response.body.error).toBe('user not found');
         })
+
+        it('should return 400 when the email or password is not provided', async () => {
+            const response = await request(server)
+                .post('/api/users/login')
+                .send();
+            expect(response.status).toBe(400);
+            expect(response.body.error).toBe('email and password are required');
+        })
     })
 })
