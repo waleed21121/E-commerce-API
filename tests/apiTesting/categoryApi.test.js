@@ -15,3 +15,13 @@ afterAll(async function () {
     await mongoose.disconnect();
     server.close();
 });
+
+describe('Get Category', () => {
+    it('should return one category', async function () {
+        await Category.create(categoryDoc);
+        const response = await request(server).get('/api/categories');
+        expect(response.status).toBe(200);
+        expect(response.body.data.length).toBe(1);
+        expect(response.body.data[0]).toMatchObject(categoryDoc);
+    });
+})
