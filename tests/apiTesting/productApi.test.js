@@ -55,3 +55,19 @@ describe('add new product', () => {
         expect(response.body.data).toMatchObject({name: productDoc.name, description: productDoc.description});
     })
 })
+
+describe('update product', () => {
+    it('should update a product by its id', async () => {
+        const product = await Product.create(productDoc);
+        const token = generateToken('test@test.com');
+        const response = await request(server)
+            .patch(`/api/products/${product._id}`)
+            .set('Authorization', `Bearer ${token}`)
+            .send({name: 'Updated Product'});
+        
+        const updatedProduct = await Product.findById(product._id);
+        expect(response.status).toBe(200);
+        expect(response.body.status).toBe('success');
+        expect(updatedProduct).toMatchObject({name: 'Updated Product', description: productDoc.description});
+    })
+})
