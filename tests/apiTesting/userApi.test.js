@@ -33,5 +33,14 @@ describe('Testing user', () => {
             expect(response.status).toBe(201);
             expect(response.body.data.newUser).toMatchObject({email: userDoc.email});
         })
+
+        it('should return 400 when the email is already taken', async () => {
+            await User.create(userDoc);
+            const response = await request(server)
+                .post('/api/users/register')
+                .send(userDoc);
+            expect(response.status).toBe(400);
+            expect(response.body.error).toBe('This Email already has an account');
+        })
     })
 })
