@@ -55,5 +55,15 @@ describe('Testing user', () => {
             expect(response.status).toBe(200);
             expect(response.body.data.token).toBeTruthy();
         })
+
+        it('should return 401 when the password is incorrect', async () => {
+            const hashedPassword = await bcrypt.hash(userDoc.password, 10);
+            await User.create({...userDoc, password: hashedPassword});
+            const response = await request(server)
+                .post('/api/users/login')
+                .send({email: userDoc.email, password: 'wrongPassword'});
+            expect(response.status).toBe(500);
+            expect(response.body.error).toBe('something wrong');
+        })
     })
 })
