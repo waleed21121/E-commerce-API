@@ -2,6 +2,7 @@ const request = require('supertest');
 const server = require('../../app');
 const mongoose = require('../../config/DBconfig');
 const {User} = require('../../models/user.model');
+const bcrypt = require('bcryptjs');
 const userDoc = require('../integration/userDoc');
 const {generateToken} = require('../../features/JWT');
 
@@ -41,6 +42,18 @@ describe('Testing user', () => {
                 .send(userDoc);
             expect(response.status).toBe(400);
             expect(response.body.error).toBe('This Email already has an account');
+        })
+    })
+
+    describe('Login user', () => {
+        it('should return a token if user login successfully', async () => {
+            const hashedPassword = await bcrypt.hash(userDoc.password, 10);
+            await User.create({...userDoc, password: hashedPassword});
+            const response = await request(server)
+                .post('/api/users/login')
+                .send({email: userDoc.email, password: userDoc.password});
+            expect(response.status).toBe(200);
+            expect(response.body.data.token).toBeTruthy();
         })
     })
 })
