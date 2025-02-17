@@ -4,6 +4,15 @@ const mongoose = require('../../config/DBconfig');
 const {Product} = require('../../models/product.model');
 const productDoc = require('../integration/productDoc');
 
+beforeEach(async function () {
+    await Product.deleteMany({});
+})
+
+afterAll(async function () {
+    await mongoose.disconnect();
+    server.close();
+});
+
 describe('get books', () => {
     it('should return one book', async () => {
         await Product.create(productDoc);
