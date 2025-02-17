@@ -71,3 +71,17 @@ describe('update product', () => {
         expect(updatedProduct).toMatchObject({name: 'Updated Product', description: productDoc.description});
     })
 })
+
+describe('delete product', () => {
+    it('should delete a product by its id', async () => {
+        const product = await Product.create(productDoc);
+        const token = generateToken('test@test.com');
+        const response = await request(server)
+            .delete(`/api/products/${product._id}`)
+            .set('Authorization', `Bearer ${token}`);
+        
+        expect(response.status).toBe(200);
+        expect(response.body.status).toBe('success');
+        expect(response.body.data).toBeNull();
+    })
+})
