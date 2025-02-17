@@ -117,6 +117,8 @@ describe('Get Products by Category', () => {
         secondProduct.category = '6067348b71972b218a39230d';
         firstProduct.name = 'with category';
         secondProduct.name = 'without category';
+
+        console.log(firstProduct, secondProduct);
         
         await Product.create([firstProduct, secondProduct]);
 

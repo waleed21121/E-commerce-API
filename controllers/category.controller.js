@@ -72,7 +72,7 @@ exports.deleteCategory = asyncWrapper(async(req, res, next) => {
 
 exports.getCategoryProducts = asyncWrapper(async(req, res, next) => {
     const queryObject = productModel.getQueryObject();
-    req.query.category = req.params.id;
+    req.query.category = req.params.categoryId;
     const features = new apiFeatures(queryObject, req.query).fieldsFilter().paginate().sort();
     const products = await features.queryObject;
     res.status(200).json({
