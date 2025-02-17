@@ -45,7 +45,7 @@ describe('get products', () => {
         const response = await request(server).get('/api/products/6067348b71972b218a39230d');
         expect(response.status).toBe(404);
         expect(response.body.status).toBe('fail');
-        expect(response.body.message).toBe('Product not found');
+        expect(response.body.error).toMatch('product not found');
     })
 })
 
@@ -76,6 +76,17 @@ describe('update product', () => {
         expect(response.status).toBe(200);
         expect(response.body.status).toBe('success');
         expect(updatedProduct).toMatchObject({name: 'Updated Product', description: productDoc.description});
+    })
+
+    it('should return 404 when the product does not exist', async () => {
+        const token = generateToken('test@test.com');
+        const response = await request(server)
+            .patch(`/api/products/6067348b71972b218a39230d`)
+            .set('Authorization', `Bearer ${token}`)
+            .send({name: 'Updated Product'});
+        expect(response.status).toBe(404);
+        expect(response.body.status).toBe('fail');
+        expect(response.body.error).toMatch('product not found');
     })
 })
 
