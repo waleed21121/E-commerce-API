@@ -107,3 +107,24 @@ describe('Delete Category', () => {
         expect(response.body.error).toBe('category not found');
     })
 })
+
+describe('Get Products by Category', () => {
+    it('should return products of a specific category', async () => {
+        const category = await Category.create(categoryDoc);
+        let firstProduct = {...productDoc};
+        let secondProduct = {...productDoc};
+        firstProduct.category = category._id;
+        secondProduct.category = '6067348b71972b218a39230d';
+        firstProduct.name = 'with category';
+        secondProduct.name = 'without category';
+        
+        await Product.create([firstProduct, secondProduct]);
+
+        const response = await request(server).get(`/api/categories/${category._id}/products`);
+
+        console.log(response.body)
+        expect(response.status).toBe(200);
+        expect(response.body.data.length).toBe(1);
+        expect(response.body.data[0].name).toBe('with category');
+    })
+})
