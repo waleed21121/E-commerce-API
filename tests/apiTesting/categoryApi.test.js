@@ -37,4 +37,10 @@ describe('Get Category', () => {
         expect(response.status).toBe(200);
         expect(response.body.data).toMatchObject(categoryDoc);
     })
+
+    it('should return 404 when category doesn\'t exist', async () => {
+        const response = await request(server).get(`/api/categories/6067348b71972b218a39230d`);
+        expect(response.status).toBe(404);
+        expect(response.body.error).toBe('category not found');
+    })
 })
