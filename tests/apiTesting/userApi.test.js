@@ -24,4 +24,14 @@ describe('Testing user', () => {
             expect(response.body.data[0]).toMatchObject({email: user.email});
         })
     })
+
+    describe('Register user', () => {
+        it('should return a token', async () => {
+            const response = await request(server)
+                .post('/api/users/register')
+                .send(userDoc);
+            expect(response.status).toBe(201);
+            expect(response.body.data.newUser).toMatchObject({email: userDoc.email});
+        })
+    })
 })
