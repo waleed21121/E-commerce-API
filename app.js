@@ -20,9 +20,4 @@ app.use((error, req, res, next) => {
 
 require('./config/DBconfig');
 
-const PORT = process.env.PORT;
-const server = app.listen(PORT, (err) => {
-    console.log(`listening on port ${PORT}`);
-})
-
-module.exports = server;
+module.exports = app;
