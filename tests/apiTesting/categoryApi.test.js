@@ -54,4 +54,14 @@ describe('Add new Category', () => {
         expect(response.status).toBe(201);
         expect(response.body.data).toMatchObject(categoryDoc);
     })
+
+    it('should return 400 for already existing category', async () => {
+        await Category.create(categoryDoc);
+        const response = await request(server)
+            .post('/api/categories')
+            .send(categoryDoc)
+            .set('Authorization', `Bearer ${generateToken('test@test.com')}`);
+        expect(response.status).toBe(400);
+        expect(response.body.error).toMatch('category is already exist');
+    })
 })
