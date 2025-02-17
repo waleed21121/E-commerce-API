@@ -7,21 +7,19 @@ const productDoc = require('../integration/productDoc');
 const categoryDoc = require('../integration/categoryDoc');
 const {generateToken} = require('../../features/JWT');
 
-afterAll (async () => {
-    await mongoose.disconnect();    
+beforeEach(async function () {
+    await Product.deleteMany({});
+    await Category.deleteMany({});
+    const category = await Category.create(categoryDoc);
+    productDoc.category = category._id; 
 })
+
+afterAll(async function () {
+    await Product.deleteMany({});
+    await Category.deleteMany({});
+    await mongoose.disconnect();
+});
 describe('product testing', () => {
-    beforeEach(async function () {
-        await Product.deleteMany({});
-        await Category.deleteMany({});
-        const category = await Category.create(categoryDoc);
-        productDoc.category = category._id; 
-    })
-    
-    afterAll(async function () {
-        await Product.deleteMany({});
-        await Category.deleteMany({});
-    });
 
     describe('get products', () => {
         it('should return one product', async () => {
