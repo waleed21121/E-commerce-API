@@ -24,4 +24,10 @@ describe('Get Category', () => {
         expect(response.body.data.length).toBe(1);
         expect(response.body.data[0]).toMatchObject(categoryDoc);
     });
+
+    it('should return no category', async function () {
+        const response = await request(server).get('/api/categories');
+        expect(response.status).toBe(200);
+        expect(response.body.data.length).toBe(0);
+    });
 })
