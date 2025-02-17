@@ -56,7 +56,7 @@ describe('Testing user', () => {
             expect(response.body.data.token).toBeTruthy();
         })
 
-        it('should return 401 when the password is incorrect', async () => {
+        it('should return 500 when the password is incorrect', async () => {
             const hashedPassword = await bcrypt.hash(userDoc.password, 10);
             await User.create({...userDoc, password: hashedPassword});
             const response = await request(server)
@@ -64,6 +64,14 @@ describe('Testing user', () => {
                 .send({email: userDoc.email, password: 'wrongPassword'});
             expect(response.status).toBe(500);
             expect(response.body.error).toBe('something wrong');
+        })
+
+        it('should return 400 when the user does not exist', async () => {
+            const response = await request(server)
+                .post('/api/users/login')
+                .send({email: 'wrongEmail@test.com', password: userDoc.password});
+            expect(response.status).toBe(400);
+            expect(response.body.error).toBe('user not found');
         })
     })
 })
