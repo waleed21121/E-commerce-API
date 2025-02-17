@@ -87,3 +87,15 @@ describe('Update Category', () => {
         expect(response.body.error).toBe('category not found');
     })
 })
+
+describe('Delete Category', () => {
+    it('should delete the category', async () => {
+        const category = await Category.create(categoryDoc);
+        const response = await request(server)
+            .delete(`/api/categories/${category._id}`)
+            .set('Authorization', `Bearer ${generateToken('test@test.com')}`);
+        const deletedCategory = await Category.findById(category._id);
+        expect(response.status).toBe(200);
+        expect(deletedCategory).toBeNull();
+    })
+})
