@@ -30,4 +30,11 @@ describe('Get Category', () => {
         expect(response.status).toBe(200);
         expect(response.body.data.length).toBe(0);
     });
+
+    it('should return the category by its id', async () => {
+        const category = await Category.create(categoryDoc);
+        const response = await request(server).get(`/api/categories/${category._id}`);
+        expect(response.status).toBe(200);
+        expect(response.body.data).toMatchObject(categoryDoc);
+    })
 })
