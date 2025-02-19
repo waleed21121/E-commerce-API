@@ -71,6 +71,14 @@ exports.deleteCategory = asyncWrapper(async(req, res, next) => {
 })
 
 exports.getCategoryProducts = asyncWrapper(async(req, res, next) => {
+
+    const id = req.params.categoryId;
+    const category = await categoryModel.getCategoryById(id);
+    if(!category) {
+        const error = appError.create(404, 'fail', 'category not found');
+        throw error;
+    }
+
     const queryObject = productModel.getQueryObject();
     req.query.category = req.params.categoryId;
     const features = new apiFeatures(queryObject, req.query).fieldsFilter().paginate().sort();

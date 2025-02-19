@@ -46,8 +46,7 @@ exports.register = asyncWrapper(async(req, res, next) => {
 
 exports.login = asyncWrapper(async (req, res, next) => {
     const {email, password} = req.body;
-
-    if(!email && !password) {
+    if(!email || !password) {
         const error = appError.create(400, 'fail', 'email and password are required');
         throw error;
     }
@@ -70,7 +69,7 @@ exports.login = asyncWrapper(async (req, res, next) => {
             }
         })
     } else {
-        const error = appError.create(500, 'error', 'something wrong')
+        const error = appError.create(401, 'error', 'Wrong password')
         throw error;
     }
 
