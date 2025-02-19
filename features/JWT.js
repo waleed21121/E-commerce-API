@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const appError = require('./appError');
 exports.generateToken = (email) => {
-    return jwt.sign({email: email}, process.env.SECRET, {expiresIn: '1m'})
+    return jwt.sign({email: email}, process.env.SECRET, {expiresIn: '1h'})
 };
 
 exports.verifyToken = (req, res, next) => {
