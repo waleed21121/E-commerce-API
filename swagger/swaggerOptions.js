@@ -44,7 +44,7 @@ const swaggerOptions = {
                     required: ['firstName', 'lastName', 'email', 'password']
                 }
             },
-            responses: {  // 🔥 Fixed: Renamed "Responses" to "responses"
+            responses: {
                 Unauthorized: {
                     description: 'Unauthorized',
                 },
